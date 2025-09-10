@@ -94,7 +94,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: aee9ed382b70b2640a9326c15468b693, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -510,7 +510,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -607,6 +607,7 @@ GameObject:
   - component: {fileID: 456730464}
   - component: {fileID: 456730463}
   - component: {fileID: 456730462}
+  - component: {fileID: 456730465}
   m_Layer: 0
   m_Name: SceneController
   m_TagString: Untagged
@@ -639,6 +640,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3fff272f3211f42941a34416b0ae82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rusLanguage: {fileID: 0}
+  engLanguage: {fileID: 0}
   saveSettings: {fileID: 0}
 --- !u!4 &456730464
 Transform:
@@ -655,6 +658,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &456730465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456730461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e42c5b9f0858dde49a3c2f1a26d310ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsWindow: {fileID: 0}
 --- !u!1 &707181367
 GameObject:
   m_ObjectHideFlags: 0
@@ -1363,8 +1379,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2082f4fb2947e9a4d9a5a4d39e73ffd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2.5
-  runSpeed: 5
+  walkSpeed: 4
+  runSpeed: 6
+  dashSpeed: 15
+  dashDistance: 3
+  dashCooldown: 1
 --- !u!143 &1352584396
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1428,6 +1447,7 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 298594632}
   - {fileID: 456730464}
   - {fileID: 87565259}
   - {fileID: 330585546}
@@ -1436,5 +1456,4 @@ SceneRoots:
   - {fileID: 1021913335}
   - {fileID: 1352584394}
   - {fileID: 707181371}
-  - {fileID: 298594632}
   - {fileID: 996565028}

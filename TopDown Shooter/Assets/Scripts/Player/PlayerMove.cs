@@ -4,10 +4,22 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float walkSpeed;
     [SerializeField] float runSpeed;
-    CharacterController characterController;
-    float horizontal;
-    float vertical;
-    float currentSpeed;
+    
+    [Header("Dash")]
+    [SerializeField] float dashSpeed;
+    [SerializeField] float dashDistance;
+    [SerializeField] float dashCooldown;
+
+    private bool isDashing = false;
+    private float dashTimer = 0f;
+    private float lastDashTime = -Mathf.Infinity;
+    private Vector3 dashDirection;
+    private CharacterController characterController;
+    private float horizontal;
+    private float vertical;
+    private float currentSpeed;
+    private float dashDuration => dashDistance / dashSpeed;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -17,12 +29,42 @@ public class PlayerMove : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
+        
+        if (!isDashing)
+        {
+            if (Input.GetKey(Settings.runKey))
+            {
+                if (Input.GetKeyDown(Settings.runKey) && CanDash()) Dash();
+                currentSpeed = runSpeed;
+            }
+            else currentSpeed = walkSpeed;
 
-        if (Input.GetKey(Settings.runKey)) currentSpeed = runSpeed;
-        else currentSpeed = walkSpeed;
+            Vector3 playerMove = new Vector3(horizontal, 0f, vertical) * currentSpeed * Time.deltaTime;
+            characterController.Move(playerMove);
+        }
+        else HandleDash();
+    }
 
-        Vector3 playerMove = new Vector3(horizontal, 0f, vertical) * currentSpeed * Time.deltaTime;
+    bool CanDash()
+    {
+        return Time.time - lastDashTime >= dashCooldown && !isDashing;
+    }
 
-        characterController.Move(playerMove);
+    void Dash()
+    {
+        isDashing = true;
+        dashTimer = 0f;
+        lastDashTime = Time.time;
+        
+        bool hasInput = Mathf.Abs(horizontal) > 0.1f || Mathf.Abs(vertical) > 0.1f;
+        dashDirection = hasInput ? new Vector3(horizontal, 0, vertical).normalized : transform.forward;
+    }
+
+    void HandleDash()
+    {
+        dashTimer += Time.deltaTime;
+        
+        if (dashTimer < dashDuration)characterController.Move(dashDirection * dashSpeed * Time.deltaTime);
+        else isDashing = false;
     }
 }
