@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class FightController : MonoBehaviour
 {
-    [SerializeField] LayerMask enemyLayers;
+    [SerializeField] LayerMask Layers;
+    [SerializeField] int damage;
     [SerializeField] float impactForce;
     [SerializeField] float maxDistance;
     [SerializeField] float reloadTime;
@@ -27,9 +28,11 @@ public class FightController : MonoBehaviour
         if (canHit)
         {
             Ray ray = new Ray(transform.position, transform.forward);
-            if (Physics.BoxCast(transform.position, boxSize / 2, transform.forward, out RaycastHit hit, transform.rotation, maxDistance, enemyLayers))
+            if (Physics.BoxCast(transform.position, boxSize / 2, transform.forward, out RaycastHit hit, transform.rotation, maxDistance, Layers))
             {
                 if (hit.rigidbody != null)  hit.rigidbody.AddForce(-hit.normal * impactForce, ForceMode.Impulse);
+                Health hp = hit.collider.GetComponent<Health>();
+                hp.GetDamage(damage);
                 canHit = false;
                 StartCoroutine(Reload());
             }
