@@ -10,6 +10,7 @@ public class Settings : MonoBehaviour
     public static KeyCode interactKey = KeyCode.E;
     public static KeyCode runKey = KeyCode.LeftShift;
     public static KeyCode dashKey = KeyCode.LeftControl;  
+    public static KeyCode medKitKey = KeyCode.V;  
     [Header("Localization")]
     [SerializeField] Button rusLanguage;
     [SerializeField] Button engLanguage;

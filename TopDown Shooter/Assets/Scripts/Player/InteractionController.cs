@@ -2,18 +2,36 @@ using UnityEngine;
 
 public class InteractionController : MonoBehaviour
 {
+    [SerializeField] GameObject InteractKey;
+    [SerializeField] LayerMask interactableLayer;
     Interactable currentInteractable;
-
-    void OnTriggerEnter(Collider other)
+    bool isInTrigger;
+    void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Interactable"))
+        if (((1 << other.gameObject.layer) & interactableLayer.value) != 0)
         {
-            Interactable interactable = other.GetComponent<Interactable>();
-            //появление кнопки Е над обьектом
-            if (Input.GetKeyDown(Settings.interactKey))
-            {
-                interactable.Interact();
-            }
+            currentInteractable = other.GetComponent<Interactable>();
+            InteractKey.SetActive(true);
+            isInTrigger = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (((1 << other.gameObject.layer) & interactableLayer.value) != 0)
+        {
+            InteractKey.SetActive(false);
+            isInTrigger = false;
+        }
+    }
+
+    void Update()
+    {
+        if (isInTrigger && Input.GetKeyDown(Settings.interactKey))
+        {
+            currentInteractable.Interact();
+            InteractKey.SetActive(false);
+            isInTrigger = false;
         }
     }
 }
