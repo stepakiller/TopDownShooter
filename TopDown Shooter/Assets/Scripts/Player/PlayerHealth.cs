@@ -5,7 +5,8 @@ public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth;
     [SerializeField] TextMeshProUGUI helthText;
-    [HideInInspector] public int currentHealth;
+    [SerializeField] GameObject deathScreen;
+    public int currentHealth;
     public static PlayerHealth Instance { get; private set; }
 
     void Start()
@@ -14,14 +15,28 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    void Update()
-    {
-
-    }
-
     public void GetHealth(int countHealth)
     {
         currentHealth += countHealth;
-        if (currentHealth > maxHealth) currentHealth = maxHealth;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+            UpdateHealth();
+        }
+    }
+
+    public void GetDamage(int damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            deathScreen.SetActive(true);
+        }
+        UpdateHealth();
+    }
+
+    void UpdateHealth()
+    {
+        //helthText.text = currentHealth.ToString();
     }
 }

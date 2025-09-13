@@ -5,12 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class Settings : MonoBehaviour
 {
+    [SerializeField] Toggle vSync;
     [Header("Controls")]
     public static KeyCode fireKey = KeyCode.Mouse0;
     public static KeyCode interactKey = KeyCode.E;
     public static KeyCode runKey = KeyCode.LeftShift;
     public static KeyCode dashKey = KeyCode.LeftControl;  
-    public static KeyCode medKitKey = KeyCode.V;  
+    public static KeyCode medKitKey = KeyCode.V;
+    public static KeyCode crouchtKey = KeyCode.LeftControl;  
     [Header("Localization")]
     [SerializeField] Button rusLanguage;
     [SerializeField] Button engLanguage;
@@ -18,6 +20,7 @@ public class Settings : MonoBehaviour
     [SerializeField] Button saveSettings;
     void Start()
     {
+        QualitySettings.vSyncCount = 1;
         rusLanguage.onClick.AddListener(() => SetLanguage(0));
         engLanguage.onClick.AddListener(() => SetLanguage(1));
         LoadSettings();
