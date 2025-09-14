@@ -4,9 +4,10 @@ using UnityEngine.SceneManagement;
 public class SceneController : MonoBehaviour
 {
     [SerializeField] GameObject settingsWindow;
-    public void LoadNextScene(int indexScene)
+    public void LoadSceneWithLoadingScreen(string sceneName)
     {
-        SceneManager.LoadScene(indexScene);
+        PlayerPrefs.SetString("SceneToLoad", sceneName);
+        SceneManager.LoadScene("LoadingScene");
     }
 
     public void Exit()

@@ -5905,7 +5905,7 @@ MonoBehaviour:
   runSpeed: 6
   healingSpeed: 2
   crouchSpeed: 2
-  crouchHeight: 0.75
+  crouchHeight: 1.75
   dashSpeed: 15
   dashDistance: 3
   dashCooldown: 1
