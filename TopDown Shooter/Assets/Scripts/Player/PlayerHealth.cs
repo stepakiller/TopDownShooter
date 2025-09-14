@@ -6,7 +6,7 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth;
     [SerializeField] TextMeshProUGUI helthText;
     [SerializeField] GameObject deathScreen;
-    public int currentHealth;
+    [HideInInspector] public int currentHealth;
     public static PlayerHealth Instance { get; private set; }
 
     void Start()

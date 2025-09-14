@@ -9,6 +9,8 @@ public class FightController : MonoBehaviour
     [SerializeField] float maxDistance;
     [SerializeField] float reloadTime;
     [SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 0.1f);
+    [SerializeField] ParticleSystem particles;
+    [SerializeField] AudioSource audioSource;
     bool canHit = true;
     void Start()
     {

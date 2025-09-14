@@ -7,6 +7,9 @@ public class Settings : MonoBehaviour
 {
     [SerializeField] Toggle vSync;
     [Header("Controls")]
+    public static KeyCode knifeKey = KeyCode.Alpha1;
+    public static KeyCode gunKey = KeyCode.Alpha2;
+    public static KeyCode granadeKey = KeyCode.Mouse0;
     public static KeyCode fireKey = KeyCode.Mouse0;
     public static KeyCode interactKey = KeyCode.E;
     public static KeyCode runKey = KeyCode.LeftShift;
