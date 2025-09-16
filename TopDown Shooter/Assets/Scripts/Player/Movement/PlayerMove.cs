@@ -1,17 +1,27 @@
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float walkSpeed;
     [SerializeField] float runSpeed;
     [SerializeField] float healingSpeed;
-    
+
+    [Header("Stamina")]
+    [SerializeField] Image staminaImg;
+    [SerializeField] float maxstamina;
+    float currentstamina;
+    [SerializeField] float durationRegen;
+    [SerializeField] float durationUse;
+    bool isRunning;
+
     [Header("Crouch")]
     [SerializeField] float crouchSpeed;
     [SerializeField] float crouchHeight;
     float standHeight = 2.2f;
     Vector3 crouchCenter = new Vector3(0, 0.5f, 0);
     Vector3 standCenter = new Vector3(0, 1.1f, 0);
+    bool isCrouch = false;
+
 
     [Header("Dash")]
     [SerializeField] float dashSpeed;
@@ -42,31 +52,49 @@ public class PlayerMove : MonoBehaviour
 
         if (!isDashing)
         {
-            if (Input.GetKey(Settings.runKey))
+            if (Input.GetKey(Settings.runKey) && currentstamina > 0 && !isCrouch)
             {
                 MedKitController.Instance.CancelHealing();
                 if (Input.GetKeyDown(Settings.runKey) && CanDash()) Dash();
                 currentSpeed = runSpeed;
+                isRunning = true;
+                currentstamina -= durationUse;
+                staminaImg.fillAmount = currentstamina / maxstamina;
             }
+            else if (Input.GetKeyUp(Settings.runKey)) isRunning = false;
             else if (Input.GetKey(Settings.crouchtKey))
             {
                 characterController.height = Mathf.Lerp(characterController.height, crouchHeight, 5f * Time.deltaTime);
                 characterController.center = Vector3.Lerp(characterController.center, crouchCenter, 5f * Time.deltaTime);
                 currentSpeed = crouchSpeed;
+                isCrouch = true;
             }
-            else
+            else if (!CanStand())
             {
-                if (!CanStand())
-                {
-                    characterController.height = Mathf.Lerp(characterController.height, standHeight, 5f * Time.deltaTime);
-                    characterController.center = Vector3.Lerp(characterController.center, standCenter, 5f * Time.deltaTime);
-                }
+                characterController.height = Mathf.Lerp(characterController.height, standHeight, 5f * Time.deltaTime);
+                characterController.center = Vector3.Lerp(characterController.center, standCenter, 5f * Time.deltaTime);
+                currentSpeed = walkSpeed;
+                isCrouch = false;
             }
-            if (MedKitController.Instance.isHealing) currentSpeed = healingSpeed;
-            else currentSpeed = walkSpeed;
+            else if (MedKitController.Instance.isHealing)
+            {
+                currentSpeed = healingSpeed;
+            }
 
             Vector3 playerMove = new Vector3(horizontal, 0f, vertical) * currentSpeed * Time.deltaTime;
             characterController.Move(playerMove);
+            transform.position = new Vector3(transform.position.x, 0.085f, transform.position.z);
+            
+            if (currentstamina <= maxstamina && !isRunning)
+            {
+                currentstamina += durationRegen;
+                staminaImg.fillAmount = currentstamina / maxstamina;
+                if (currentstamina >= maxstamina)
+                {
+                    currentstamina = maxstamina;
+                    staminaImg.fillAmount = currentstamina / maxstamina;
+                }
+            }
         }
         else HandleDash();
     }

@@ -33,8 +33,11 @@ public class FightController : MonoBehaviour
             if (Physics.BoxCast(transform.position, boxSize / 2, transform.forward, out RaycastHit hit, transform.rotation, maxDistance, Layers))
             {
                 if (hit.rigidbody != null)  hit.rigidbody.AddForce(-hit.normal * impactForce, ForceMode.Impulse);
-                Health hp = hit.collider.GetComponent<Health>();
-                hp.GetDamage(damage);
+                if (hit.collider.GetComponent<Health>())
+                {
+                    Health hp = hit.collider.GetComponent<Health>();
+                    hp.GetDamage(damage);
+                }
                 canHit = false;
                 StartCoroutine(Reload());
             }
