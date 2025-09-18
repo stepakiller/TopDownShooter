@@ -19,7 +19,7 @@ public class PlayerShoot : MonoBehaviour
     void Update()
     {
         CoolWeapon();
-        UpdateHeatUI();
+        heatSlider.fillAmount = currentHeat / overheatThreshold;
         if (Input.GetKey(Settings.fireKey) && canShoot && Time.time >= nextFireTime)
         {
             if (currentHeat < overheatThreshold) Shoot();
@@ -50,20 +50,6 @@ public class PlayerShoot : MonoBehaviour
             currentHeat = Mathf.Max(0f, currentHeat);
 
             if (currentHeat <= overheatThreshold * 0.7f && !canShoot) canShoot = true;
-        }
-    }
-
-    void UpdateHeatUI()
-    {
-        if (heatSlider != null)
-        {
-            // Обновляем заполнение (0-1)
-            heatSlider.fillAmount = currentHeat / overheatThreshold;
-            
-            // Меняем цвет в зависимости от уровня перегрева
-            if (currentHeat > overheatThreshold * 0.8f) heatSlider.color = Color.red;
-            else if (currentHeat > overheatThreshold * 0.5f) heatSlider.color = Color.yellow;
-            else heatSlider.color = Color.white;
         }
     }
 }

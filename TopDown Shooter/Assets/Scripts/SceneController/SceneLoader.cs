@@ -13,7 +13,7 @@ public class SceneLoader : MonoBehaviour
 
     void Start()
     {
-        loadingBackGround.sprite = screens[UnityEngine.Random.Range(0, screens.Length+1)];
+        loadingBackGround.sprite = screens[UnityEngine.Random.Range(0, screens.Length)];
         string sceneToLoad = PlayerPrefs.GetString("SceneToLoad");
         StartCoroutine(LoadSceneAsync(sceneToLoad));
         StartCoroutine(DotsAnimation());
@@ -28,7 +28,7 @@ public class SceneLoader : MonoBehaviour
         {
             if (operation.progress >= 0.9f)
             {
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(5f);
                 operation.allowSceneActivation = true;
             }
             yield return null;

@@ -8,6 +8,10 @@ public class Health : MonoBehaviour
     public void GetDamage(int damage)
     {
         health -= damage;
-        if (health <= 0) Destroy(gameObject);
+        if (health <= 0)
+        {
+            Instantiate(particles, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
     }
 }

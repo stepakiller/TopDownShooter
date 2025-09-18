@@ -19,18 +19,20 @@ public class BulletController : MonoBehaviour
         if (((1 << collision.gameObject.layer) & interactableLayer.value) != 0)
         {
             Health health = collision.gameObject.GetComponent<Health>();
-            health.GetDamage(damage);
-            //Instantiate(hitEffect, transform.position, transform.rotation);
+            PlayerHealth health2 = collision.gameObject.GetComponent<PlayerHealth>();
+            if (health != null) health.GetDamage(damage);
+            else if (health2 != null) health2.GetDamage(damage);
+            Instantiate(hitEffect, transform.position, transform.rotation);
             Destroy(gameObject);
         }
         if (currentBounce < bouncesCount)
         {
-            //Instantiate(hitEffect, transform.position, Quaternion.identity);
+            Instantiate(hitEffect, transform.position, Quaternion.identity);
             currentBounce++;
         }
         else
         {
-            //Instantiate(hitEffect, transform.position, transform.rotation);
+            Instantiate(hitEffect, transform.position, transform.rotation);
             Destroy(gameObject);
         }
     }

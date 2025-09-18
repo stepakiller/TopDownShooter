@@ -1,12 +1,14 @@
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHealth;
-    [SerializeField] TextMeshProUGUI helthText;
+    public float maxHealth;
     [SerializeField] GameObject deathScreen;
-    [HideInInspector] public int currentHealth;
+    [SerializeField] Image healthBar;
+     public float currentHealth;
     public static PlayerHealth Instance { get; private set; }
 
     void Start()
@@ -14,10 +16,14 @@ public class PlayerHealth : MonoBehaviour
         Instance = this;
         currentHealth = maxHealth;
     }
-
-    public void GetHealth(int countHealth)
+    public void GetHealth()
     {
-        currentHealth += countHealth;
+        if (currentHealth > 0 && currentHealth < 20) currentHealth = 20;
+        else if (currentHealth >= 20 && currentHealth < 40) currentHealth = 40;
+        else if (currentHealth >= 40 && currentHealth < 60) currentHealth = 60;
+        else if (currentHealth >= 60 && currentHealth < 80) currentHealth = 80;
+        else if (currentHealth >= 80 && currentHealth < 100) currentHealth = 100;
+        UpdateHealth();
         if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
@@ -31,12 +37,13 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             deathScreen.SetActive(true);
+            Destroy(gameObject);
         }
         UpdateHealth();
     }
 
     void UpdateHealth()
     {
-        //helthText.text = currentHealth.ToString();
+        healthBar.fillAmount = currentHealth / maxHealth;
     }
 }

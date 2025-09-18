@@ -9,6 +9,10 @@ public class SceneController : MonoBehaviour
         PlayerPrefs.SetString("SceneToLoad", sceneName);
         SceneManager.LoadScene("LoadingScene");
     }
+    public void LoadSceneWithOutLoadingScreen(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 
     public void Exit()
     {

@@ -21,7 +21,7 @@ public class PauseController : MonoBehaviour
         pauseScreen.SetActive(true);
     }
 
-    void PauseOff()
+    public void PauseOff()
     {
         Time.timeScale = 1f;
         pauseScreen.SetActive(false);

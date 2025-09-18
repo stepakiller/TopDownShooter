@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField] float walkSpeed;
-    [SerializeField] float runSpeed;
+    public float walkSpeed;
+    public float runSpeed;
     [SerializeField] float healingSpeed;
 
     [Header("Stamina")]
@@ -25,8 +25,9 @@ public class PlayerMove : MonoBehaviour
 
     [Header("Dash")]
     [SerializeField] float dashSpeed;
-    [SerializeField] float dashDistance;
+    public float dashDistance;
     [SerializeField] float dashCooldown;
+    [SerializeField] Image cooldown;
     float dashDuration => dashDistance / dashSpeed;
     bool isDashing = false;
     Vector3 dashDirection;
@@ -38,11 +39,13 @@ public class PlayerMove : MonoBehaviour
     float horizontal;
     float vertical;
     float currentSpeed;
+    CapsuleCollider _collider;
 
-    void Start()
+    void Awake()
     {
         Instance = this;
         characterController = GetComponent<CharacterController>();
+        _collider = GetComponent<CapsuleCollider>();
     }
 
     void Update()
@@ -76,15 +79,15 @@ public class PlayerMove : MonoBehaviour
                 currentSpeed = walkSpeed;
                 isCrouch = false;
             }
-            else if (MedKitController.Instance.isHealing)
+            if (MedKitController.Instance.isHealing)
             {
                 currentSpeed = healingSpeed;
             }
 
             Vector3 playerMove = new Vector3(horizontal, 0f, vertical) * currentSpeed * Time.deltaTime;
             characterController.Move(playerMove);
-            transform.position = new Vector3(transform.position.x, 0.085f, transform.position.z);
-            
+            transform.position = new Vector3(transform.position.x, -0.05f, transform.position.z);
+
             if (currentstamina <= maxstamina && !isRunning)
             {
                 currentstamina += durationRegen;
@@ -97,6 +100,11 @@ public class PlayerMove : MonoBehaviour
             }
         }
         else HandleDash();
+
+        float cooldownProgress = Mathf.Clamp01((Time.time - lastDashTime) / dashCooldown);
+        
+        if (cooldownProgress >= 1f) cooldown.fillAmount = 1f;
+        else cooldown.fillAmount = cooldownProgress;
     }
 
     bool CanDash()
@@ -115,6 +123,7 @@ public class PlayerMove : MonoBehaviour
 
     void Dash()
     {
+        _collider.enabled = false;
         isDashing = true;
         dashTimer = 0f;
         lastDashTime = Time.time;
@@ -128,6 +137,11 @@ public class PlayerMove : MonoBehaviour
         dashTimer += Time.deltaTime;
 
         if (dashTimer < dashDuration) characterController.Move(dashDirection * dashSpeed * Time.deltaTime);
-        else isDashing = false;
+        else
+        {
+            isDashing = false;
+            _collider.enabled = true;
+            isRunning = false;
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FightController : MonoBehaviour
 {
@@ -9,19 +10,31 @@ public class FightController : MonoBehaviour
     [SerializeField] float maxDistance;
     [SerializeField] float reloadTime;
     [SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 0.1f);
+    [SerializeField] Image coolDownBar;
     [SerializeField] ParticleSystem particles;
     [SerializeField] AudioSource audioSource;
     bool canHit = true;
-    void Start()
-    {
-
-    }
+    bool isReloading = false;
+    float reloadTimer = 0f;
 
     void Update()
     {
         if (Input.GetKeyDown(Settings.fireKey) && canHit)
         {
             GetHit();
+        }
+        if (isReloading)
+        {
+            reloadTimer += Time.deltaTime;
+            float fillAmount = Mathf.Clamp01(reloadTimer / reloadTime);
+            coolDownBar.fillAmount = fillAmount;
+            
+            if (reloadTimer >= reloadTime)
+            {
+                isReloading = false;
+                reloadTimer = 0f;
+                coolDownBar.fillAmount = 1f;
+            }
         }
     }
 
@@ -39,6 +52,9 @@ public class FightController : MonoBehaviour
                     hp.GetDamage(damage);
                 }
                 canHit = false;
+                isReloading = true;
+                reloadTimer = 0f;
+                coolDownBar.fillAmount = 0f;
                 StartCoroutine(Reload());
             }
         }
