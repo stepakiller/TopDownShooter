@@ -10,7 +10,7 @@ public class Settings : MonoBehaviour
     [Header("Controls")]
     public static KeyCode knifeKey = KeyCode.Alpha1;
     public static KeyCode gunKey = KeyCode.Alpha2;
-    public static KeyCode granadeKey = KeyCode.Mouse0;
+    public static KeyCode ThrowGranade = KeyCode.Q;
     public static KeyCode fireKey = KeyCode.Mouse0;
     public static KeyCode interactKey = KeyCode.E;
     public static KeyCode runKey = KeyCode.LeftShift;
@@ -48,10 +48,7 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetInt("VSync", QualitySettings.vSyncCount);
     }
 
-    public void ChangeKeyKode(KeyCode v)
-    {
-        StartCoroutine(Change(v));
-    }
+    public void ChangeKeyKode(KeyCode v) => StartCoroutine(Change(v));
     IEnumerator Change(KeyCode i)
     {
         while (true)
