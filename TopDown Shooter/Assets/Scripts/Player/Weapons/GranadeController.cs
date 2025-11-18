@@ -17,7 +17,12 @@ public class GranadeController : MonoBehaviour
     bool canThrow = true;
     Rigidbody rb;
 
-    void Start() => currentGranade = maxGranade;
+    void Start()
+    {
+        
+        currentGranade = maxGranade;
+        counterGranade.text = currentGranade.ToString();
+    }
 
     void Update()
     {

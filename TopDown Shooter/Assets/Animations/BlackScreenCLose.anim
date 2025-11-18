@@ -122,7 +122,7 @@ AnimationClip:
   m_Events:
   - time: 2
     functionName: LoadSceneWithOutLoadingScreen
-    data: Menu
+    data: Level1
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

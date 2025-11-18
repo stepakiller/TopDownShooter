@@ -20,8 +20,12 @@ public class BulletController : MonoBehaviour
         {
             Health health = collision.gameObject.GetComponent<Health>();
             PlayerHealth health2 = collision.gameObject.GetComponent<PlayerHealth>();
+            EnemyHealth health3 = collision.gameObject.GetComponent<EnemyHealth>();
+            TurretHealth health4 = collision.gameObject.GetComponent<TurretHealth>();
             if (health != null) health.GetDamage(damage);
             else if (health2 != null) health2.GetDamage(damage);
+            else if (health3 != null) health3.GetDamage(damage);
+            else if (health4 != null) health4.GetDamage(damage);
             Instantiate(hitEffect, transform.position, transform.rotation);
             Destroy(gameObject);
         }

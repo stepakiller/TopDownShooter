@@ -11,7 +11,7 @@ public class FightController : MonoBehaviour
     [SerializeField] float reloadTime;
     [SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 0.1f);
     [SerializeField] Image coolDownBar;
-    [SerializeField] ParticleSystem particles;
+    [SerializeField] GameObject hitEffect;
     [SerializeField] AudioSource audioSource;
     bool canHit = true;
     bool isReloading = false;
@@ -19,10 +19,7 @@ public class FightController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(Settings.fireKey) && canHit)
-        {
-            GetHit();
-        }
+        if (Input.GetKeyDown(Settings.fireKey) && canHit) GetHit();
         if (isReloading)
         {
             reloadTimer += Time.deltaTime;
@@ -45,10 +42,16 @@ public class FightController : MonoBehaviour
             Ray ray = new Ray(transform.position, transform.forward);
             if (Physics.BoxCast(transform.position, boxSize / 2, transform.forward, out RaycastHit hit, transform.rotation, maxDistance, Layers))
             {
-                if (hit.rigidbody != null)  hit.rigidbody.AddForce(-hit.normal * impactForce, ForceMode.Impulse);
+                Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
+                if (hit.rigidbody != null) hit.rigidbody.AddForce(-hit.normal * impactForce, ForceMode.Impulse);
                 if (hit.collider.GetComponent<Health>())
                 {
                     Health hp = hit.collider.GetComponent<Health>();
+                    hp.GetDamage(damage);
+                }
+                else if (hit.collider.GetComponent<EnemyHealth>())
+                {
+                    EnemyHealth hp = hit.collider.GetComponent<EnemyHealth>();
                     hp.GetDamage(damage);
                 }
                 canHit = false;
