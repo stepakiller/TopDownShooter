@@ -40,18 +40,44 @@ public class PlayerMove : MonoBehaviour
     float vertical;
     float currentSpeed;
     CapsuleCollider _collider;
+    AnimationsController animCon;
 
     void Awake()
     {
         Instance = this;
         characterController = GetComponent<CharacterController>();
         _collider = GetComponent<CapsuleCollider>();
+        animCon = GetComponentInChildren<AnimationsController>();
     }
 
     void Update()
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
+
+        Vector3 moveInput = new Vector3(horizontal, 0f, vertical);
+        Vector3 localMove = transform.InverseTransformDirection(moveInput);
+        animCon.SetMovementDirection(localMove.x, localMove.z);
+
+        bool isMoving = Mathf.Abs(horizontal) > 0.1f || Mathf.Abs(vertical) > 0.1f;
+        
+        if(isMoving)
+        {
+            animCon.IsMoving(true);
+            
+            if(Mathf.Abs(localMove.z) > Mathf.Abs(localMove.x))
+            {
+                if(localMove.z > 0) animCon.SetDirection("Forward");
+                else animCon.SetDirection("Backward");
+            }
+            else
+            {
+                if(localMove.x > 0) animCon.SetDirection("Right");
+                else animCon.SetDirection("Left");
+            }
+        }
+        else animCon.IsMoving(false);
+
 
         if (!isDashing)
         {

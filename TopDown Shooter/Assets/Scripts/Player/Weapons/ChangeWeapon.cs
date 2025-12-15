@@ -6,9 +6,11 @@ public class ChangeWeapon : MonoBehaviour
     [SerializeField] GameObject weapon;
     FightController knife;
     PlayerShoot gun;
+    AnimationsController animCon;
 
     void Start()
     {
+        animCon = GetComponentInChildren<AnimationsController>();
         knife = GetComponent<FightController>();
         gun = GetComponent<PlayerShoot>();
     }
@@ -16,6 +18,9 @@ public class ChangeWeapon : MonoBehaviour
     {
         if (Input.GetKeyDown(Settings.knifeKey))
         {
+            animCon.IsHands(true);
+            animCon.IsShoot(false);
+
             knife.enabled = true;
             hands.SetActive(true);
 
@@ -25,6 +30,10 @@ public class ChangeWeapon : MonoBehaviour
         }
         if (Input.GetKeyDown(Settings.gunKey))
         {
+            animCon.IsHands(false);
+            animCon.IsShoot(true);
+
+
             knife.enabled = false;
             hands.SetActive(false);
 

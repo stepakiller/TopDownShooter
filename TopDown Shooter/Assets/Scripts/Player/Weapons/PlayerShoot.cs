@@ -16,15 +16,24 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] Image heatSlider;
     float currentHeat;
     float nextFireTime;
+
+    AnimationsController animCon;
+
+    void Start() => animCon = GetComponentInChildren<AnimationsController>();
     void Update()
     {
         CoolWeapon();
         heatSlider.fillAmount = currentHeat / overheatThreshold;
         if (Input.GetKey(Settings.fireKey) && canShoot && Time.time >= nextFireTime)
         {
-            if (currentHeat < overheatThreshold) Shoot();
+            if (currentHeat < overheatThreshold)
+            {
+                animCon.GetHit();
+                Shoot();
+            }
             else canShoot = false;
         }
+        else animCon.anim.SetBool("isShooting", false);
     }
 
     void Shoot()

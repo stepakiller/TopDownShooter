@@ -152,7 +152,7 @@ Transform:
   m_GameObject: {fileID: 2480846275325623727}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2.65}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -275,11 +275,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  hitEffect: {fileID: 4328744993387901879, guid: 6098ec5cc38f83b4b89f605d489b8ab1, type: 3}
-  bouncesCount: 1
+  hitEffect: {fileID: 4328744993387901879, guid: 403ab9b37c1c27841921a233bd6a72e8, type: 3}
+  bouncesCount: 0
+  lifeTime: 10
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 1664
+    m_Bits: 9856
 --- !u!96 &8122977221034069497
 TrailRenderer:
   serializedVersion: 3

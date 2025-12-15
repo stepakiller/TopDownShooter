@@ -16,10 +16,10 @@ TagManager:
   - Box
   - Interactable
   - Player
-  - 
-  - 
-  - 
-  - 
+  - Obstacle
+  - Wall
+  - Boss
+  - EnemyBullet
   - 
   - 
   - 

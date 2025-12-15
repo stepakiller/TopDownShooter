@@ -4,7 +4,8 @@ public class BulletController : MonoBehaviour
 {
     [SerializeField] int damage;
     [SerializeField] GameObject hitEffect;
-    [SerializeField] int bouncesCount;
+    public int bouncesCount;
+    [SerializeField] float lifeTime;
     [SerializeField] LayerMask interactableLayer;
     int currentBounce;
     Rigidbody rb;
@@ -12,6 +13,7 @@ public class BulletController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        Destroy(gameObject, lifeTime);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -20,8 +22,14 @@ public class BulletController : MonoBehaviour
         {
             Health health = collision.gameObject.GetComponent<Health>();
             PlayerHealth health2 = collision.gameObject.GetComponent<PlayerHealth>();
+            EnemyHealth health3 = collision.gameObject.GetComponent<EnemyHealth>();
+            TurretHealth health4 = collision.gameObject.GetComponent<TurretHealth>();
+            BossHealth2 health5 = collision.gameObject.GetComponent<BossHealth2>();
             if (health != null) health.GetDamage(damage);
             else if (health2 != null) health2.GetDamage(damage);
+            else if (health3 != null) health3.GetDamage(damage);
+            else if (health4 != null) health4.GetDamage(damage);
+            else if (health5 != null) health5.GetDamage(damage);
             Instantiate(hitEffect, transform.position, transform.rotation);
             Destroy(gameObject);
         }

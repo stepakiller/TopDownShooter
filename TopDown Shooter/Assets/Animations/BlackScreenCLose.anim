@@ -121,8 +121,8 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 2
-    functionName: LoadSceneWithOutLoadingScreen
-    data: Menu
+    functionName: BlackScreen
+    data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

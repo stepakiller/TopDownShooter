@@ -8,7 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public float maxHealth;
     [SerializeField] GameObject deathScreen;
     [SerializeField] Image healthBar;
-     public float currentHealth;
+    public float currentHealth;
     public static PlayerHealth Instance { get; private set; }
 
     void Start()

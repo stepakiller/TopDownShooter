@@ -3,19 +3,17 @@ using UnityEngine;
 public class Door : MonoBehaviour, Interactable
 {
     Animator anim;
-    void Start()
-    {
-        anim = GetComponent<Animator>();
-    }
+    [SerializeField] string OpenAnim;
+    
+    [SerializeField] string CloseAnim;
+    [SerializeField] float time;
+    void Start() => anim = GetComponent<Animator>();
 
     public void Interact()
     {
-        anim.Play("OpenDoor");
-        Invoke("CloseDoor", 5);
+        anim.Play(OpenAnim);
+        Invoke("CloseDoor", time);
     }
 
-    void CloseDoor()
-    {
-        anim.Play("CloseDoor");
-    }
+    void CloseDoor() => anim.Play(CloseAnim);
 }

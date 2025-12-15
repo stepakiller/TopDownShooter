@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class MissionList : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI[] missionTexts;
-    [SerializeField] GameObject medKitsUIcounter, stamina, health, turret, medkits, currentWeapon;
+    [SerializeField] GameObject medKitsUIcounter, stamina, health, turret, hpTurret, medkits, currentWeapon, granade;
     [SerializeField] BoxCollider door3;
     [SerializeField] GameObject BlackScreen;
 
@@ -18,6 +18,8 @@ public class MissionList : MonoBehaviour
         KeyCode.None,
         KeyCode.None,
         KeyCode.Alpha2,
+        KeyCode.Mouse0,
+        KeyCode.Q,
         KeyCode.None,
         KeyCode.LeftShift,
         KeyCode.LeftShift,
@@ -35,6 +37,7 @@ public class MissionList : MonoBehaviour
     public static UnityEvent stage1;
     int stage = 0;
     [SerializeField] FightController fightController;
+    [SerializeField] GranadeController granadeController;
     [SerializeField] PlayerShoot playerShoot;
     [SerializeField] ChangeWeapon changeWeapon;
     float run;
@@ -49,6 +52,7 @@ public class MissionList : MonoBehaviour
         stamina.SetActive(false);
         health.SetActive(false);
         turret.SetActive(false);
+        hpTurret.SetActive(false);
         medkits.SetActive(false);
         currentWeapon.SetActive(false);
         door3.enabled = false;
@@ -60,6 +64,8 @@ public class MissionList : MonoBehaviour
         PlayerMove.Instance.runSpeed = PlayerMove.Instance.walkSpeed;
         distance = PlayerMove.Instance.dashDistance;
         PlayerMove.Instance.dashDistance = 0;
+        granadeController.enabled = false;
+        granade.SetActive(false);
         StageUp();
     }
 
@@ -81,7 +87,13 @@ public class MissionList : MonoBehaviour
             {
                 if (Input.GetKeyDown(stageKeyCodes[stage]))
                 {
-                    door3.enabled = true;
+                    StageUp();
+                }
+            }
+            else if (stage == 6)
+            {
+                if (Input.GetKeyDown(stageKeyCodes[stage]))
+                {
                     StageUp();
                 }
             }
@@ -89,10 +101,11 @@ public class MissionList : MonoBehaviour
             {
                 if (Input.GetKeyDown(stageKeyCodes[stage]))
                 {
+                    door3.enabled = true;
                     StageUp();
                 }
             }
-            else if (stage == 8)
+            else if (stage == 9)
             {
                 if (Input.GetKeyDown(stageKeyCodes[stage]))
                 {
@@ -107,6 +120,20 @@ public class MissionList : MonoBehaviour
                 }
             }
             else if (stage == 11)
+            {
+                if (Input.GetKeyDown(stageKeyCodes[stage]))
+                {
+                    StageUp();
+                }
+            }
+            else if (stage == 12)
+            {
+                if (Input.GetKeyDown(stageKeyCodes[stage]))
+                {
+                    StageUp();
+                }
+            }
+            else if (stage == 13)
             {
                 if (Input.GetKeyDown(stageKeyCodes[stage]))
                 {
@@ -164,9 +191,8 @@ public class MissionList : MonoBehaviour
             case 6:
                 {
                     IncludeText(stage);
-                    PlayerMove.Instance.runSpeed = run;
-                    PlayerMove.Instance.dashDistance = distance;
-                    stamina.SetActive(true);
+                    granadeController.enabled = true;
+                    granade.SetActive(true);
                     stage++;
                     break;
                 }
@@ -175,15 +201,31 @@ public class MissionList : MonoBehaviour
                     IncludeText(stage);
                     stage++;
                     break;
-                }
+                }    
             case 8:
                 {
                     IncludeText(stage);
-                    turret.SetActive(true);
+                    PlayerMove.Instance.runSpeed = run;
+                    PlayerMove.Instance.dashDistance = distance;
+                    stamina.SetActive(true);
                     stage++;
                     break;
                 }
             case 9:
+                {
+                    IncludeText(stage);
+                    stage++;
+                    break;
+                }
+            case 10:
+                {
+                    IncludeText(stage);
+                    turret.SetActive(true);
+                    hpTurret.SetActive(true);
+                    stage++;
+                    break;
+                }
+            case 11:
                 {
                     IncludeText(stage);
                     medKitsUIcounter.SetActive(true);
@@ -191,13 +233,13 @@ public class MissionList : MonoBehaviour
                     stage++;
                     break;
                 }
-            case 10:
+            case 12:
                 {
                     IncludeText(stage);
                     stage++;
                     break;
                 }
-            case 11:
+            case 13:
                 {
                     IncludeText(stage);
                     stage++;

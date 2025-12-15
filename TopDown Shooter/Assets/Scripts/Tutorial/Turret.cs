@@ -9,10 +9,7 @@ public class Turret : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     GameObject _target;
     float nextFireTime;
-    void Start()
-    {
-        _target = PlayerMove.Instance.gameObject;
-    }
+    void Start() => _target = PlayerMove.Instance.gameObject;
 
     void Update()
     {
@@ -33,11 +30,10 @@ public class Turret : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.AddForce(firePoint.forward * bulletForce, ForceMode.Impulse);
-        Destroy(bullet, 7.5f);
         nextFireTime = Time.time + fireRate;
     }
     void OnDestroy()
     {
-        MissionList.Instance.StageUp();
+        if(MissionList.Instance != null) MissionList.Instance.StageUp();
     }
 }
